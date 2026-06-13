@@ -13,8 +13,8 @@ app.get("/employees", (req, res) => {
   res.send(employees);
 });
 
-// Note: this middleware has to come first! Otherwise, Express will treat
-// "random" as the argument to the `id` parameter of /employees/:id.
+// Before any other middleware is written in code, this one has to come first.
+// Without following this order, Express will treat "random" as the arguement to the `id` parameter of /employees/:id.
 app.get("/employees/random", (req, res) => {
   const employee = getRandomEmployee();
   res.send(employee);
@@ -23,8 +23,8 @@ app.get("/employees/random", (req, res) => {
 app.get("/employees/:id", (req, res) => {
   const { id } = req.params;
 
-  // req.params are always strings, so we need to convert `id` into a number
-  // before we can use it to find the employee
+  // To find the employee, we need to convert `id` into a number.
+  // Req.params are always strings unless converted.
   const employee = getEmployee(+id);
 
   if (!employee) {
